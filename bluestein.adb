@@ -2,6 +2,7 @@
 with Ada.Numerics;
 with Ada.Numerics.Complex_Elementary_Functions;
 use Ada.Numerics.Complex_Elementary_Functions;
+with Interfaces; -- Added to allow bitwise operations (Unsigned_32)
 
 package body Bluestein is
 
@@ -38,7 +39,8 @@ package body Bluestein is
          return Result;
       end if;
 
-      if (N and (N - 1)) /= 0 then
+      -- FIX: Cast to Unsigned_32 for the bitwise 'and' operation
+      if (Interfaces.Unsigned_32(N) and Interfaces.Unsigned_32(N - 1)) /= 0 then
          raise Invalid_Size with "Radix2_FFT requires power of 2 length";
       end if;
 
