@@ -2,7 +2,8 @@
 with Ada.Numerics;
 with Ada.Numerics.Complex_Elementary_Functions;
 use Ada.Numerics.Complex_Elementary_Functions;
-with Interfaces; -- Added to allow bitwise operations (Unsigned_32)
+with Interfaces;
+use type Interfaces.Unsigned_32; -- Makes the 'and' operator visible for Unsigned_32
 
 package body Bluestein is
 
@@ -39,7 +40,7 @@ package body Bluestein is
          return Result;
       end if;
 
-      -- FIX: Cast to Unsigned_32 for the bitwise 'and' operation
+      -- Use Unsigned_32 bitwise operations to efficiently check for power of 2
       if (Interfaces.Unsigned_32(N) and Interfaces.Unsigned_32(N - 1)) /= 0 then
          raise Invalid_Size with "Radix2_FFT requires power of 2 length";
       end if;
